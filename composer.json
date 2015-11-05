@@ -1,0 +1,23 @@
+{
+  "name": "browomir/open-encryption",
+  "description": "Simple users password encryption class based on OpenSSL",
+  "keywords": [
+    "OpenSSL",
+    "class",
+    "php",
+    "encryption",
+    "decryption",
+    "password"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Browomir"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "OpenEncryption\\": "src/"
+    }
+  }
+}
