@@ -14,7 +14,7 @@ class Encryption
      * @param $username
      * @return string base64 encoded
      */
-    public static function encrypt($input, $salt, $username)
+    public static function encrypt($input, $salt, $username = '')
     {
         $secretKey = self::getKey($salt, $username);
         $encrypted = openssl_encrypt($input, self::ENCRYPT_METHOD, $secretKey, OPENSSL_RAW_DATA);
@@ -30,7 +30,7 @@ class Encryption
      * @param $username
      * @return string
      */
-    public static function decrypt($hash, $salt, $username)
+    public static function decrypt($hash, $salt, $username = '')
     {
         $secretKey = self::getKey($salt, $username);
         $decrypted = openssl_decrypt(base64_decode($hash), self::ENCRYPT_METHOD, $secretKey, OPENSSL_RAW_DATA);
