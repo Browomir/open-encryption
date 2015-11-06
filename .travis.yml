@@ -1,4 +1,5 @@
 language: php
+
 php:
   - 5.3
   - 5.4
@@ -6,4 +7,9 @@ php:
   - 5.6
   - hhvm
   - nightly
-script: phpunit --configuration $DB.phpunit.xml.dist
+
+before_script:
+  - curl -s http://getcomposer.org/installer | php
+  - php composer.phar install --dev
+
+script: phpunit
