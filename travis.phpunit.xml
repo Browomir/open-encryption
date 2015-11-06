@@ -9,10 +9,10 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="tests/travis-bootstrap.php"
 >
     <testsuites>
-        <testsuite name="OpenEncryption Test Suite">
+        <testsuite name="OpenEncryption Test Suite - trviis">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
