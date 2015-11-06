@@ -45,3 +45,5 @@ echo '<br>';
 echo 'Decrypted: ' . $decrypted;
 
 ```
+
+[![Build Status](https://travis-ci.org/Browomir/open-encryption.svg)](https://travis-ci.org/Browomir/open-encryption)
