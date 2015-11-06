@@ -16,4 +16,4 @@ before_install:
 install:
   - composer require browomir/open-encryption "dev-master"
 script:
-  - phpunit --configuration vendor/browomir/open-encryption/phpunit.xml.dist
+  - phpunit --configuration vendor/browomir/open-encryption/travis.phpunit.xml
