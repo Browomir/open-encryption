@@ -9,6 +9,7 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
-
+before_sript:
+  - copoer install
 script:
   - phpunit --configuration phpunit.xml.dist
