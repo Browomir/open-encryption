@@ -29,4 +29,19 @@ This simple example show how you can use this class:
 
 ```php
 
+require_once 'vendor/autoload.php';
+
+use OpenEncryption\Encryption;
+
+$username = 'test@example.com';
+$password = 'test123';
+$salt = 'somesalt';
+
+$encrypted = Encryption::encrypt($password, $salt, $username);
+$decrypted = Encryption::decrypt($encrypted, $salt, $username);
+
+echo 'Encrypted: ' . $encrypted;
+echo '<br>';
+echo 'Decrypted: ' . $decrypted;
+
 ```
