@@ -9,7 +9,13 @@ php:
 matrix:
   allow_failures:
     - php: hhvm
+before_install:
+  - rm -rf travis-test
+  - mkdir travis-test
+  - cd travis-test
+install:
+  - composer require browomir/open-encryption "dev-master"
 before_sript:
-  - composer install
+  - cd vendorbrowomir/open-encryption
 script:
   - phpunit --configuration phpunit.xml.dist
