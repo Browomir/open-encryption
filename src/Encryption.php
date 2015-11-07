@@ -8,11 +8,10 @@ class Encryption
     const SECRET_KEY_LENGTH = 16;
 
     /**
-     * encrypt given string with ENCRYPT_METHOD e.g. AES-128-ECB
      * @param $input
      * @param $salt
-     * @param $username
-     * @return string base64 encoded
+     * @param string $username
+     * @return string
      */
     public static function encrypt($input, $salt, $username = '')
     {
@@ -27,7 +26,7 @@ class Encryption
      * decrypt given hash string with ENCRYPT_METHOD e.g. AES-128-ECB
      * @param $hash
      * @param $salt
-     * @param $username
+     * @param string $username
      * @return string
      */
     public static function decrypt($hash, $salt, $username = '')

@@ -10,6 +10,7 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
     const HASH = '4EJpyA53CBka8y5GCiF3pg==';
     const INCORRECT_HASH = 'aR6EwTY35Bf4i5B2cey6nM==';
     const EMPTY_USERNAME = '';
+    const EMPTY_USERNAME_HASH = 'gXk0hYoc1q/BNXScMYsq+Q==';
 
     public function testEncrypt()
     {
