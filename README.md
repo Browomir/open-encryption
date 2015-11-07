@@ -49,6 +49,7 @@ echo 'Decrypted: ' . $decrypted;
 ```
 
 [![Build Status](https://travis-ci.org/Browomir/open-encryption.svg)](https://travis-ci.org/Browomir/open-encryption)
+[![Coverage Status](https://coveralls.io/repos/Browomir/open-encryption/badge.svg?branch=master&service=github)](https://coveralls.io/github/Browomir/open-encryption?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/browomir/open-encryption/v/stable)](https://packagist.org/packages/browomir/open-encryption) 
 [![Total Downloads](https://poser.pugx.org/browomir/open-encryption/downloads)](https://packagist.org/packages/browomir/open-encryption) 
 [![Latest Unstable Version](https://poser.pugx.org/browomir/open-encryption/v/unstable)](https://packagist.org/packages/browomir/open-encryption) 
