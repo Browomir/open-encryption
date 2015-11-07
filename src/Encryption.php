@@ -15,6 +15,7 @@ class Encryption
     }
 
     /**
+     * encrypt given string with ENCRYPT_METHOD e.g. AES-128-ECB
      * @param $input
      * @param $salt
      * @param string $username
