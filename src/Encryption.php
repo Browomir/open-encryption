@@ -7,15 +7,22 @@ class Encryption
     const ENCRYPT_METHOD = 'AES-128-ECB';
     const SECRET_KEY_LENGTH = 16;
 
+    private $secretKey;
+
+    public function __construct($secretKey = null)
+    {
+        $this->secretKey = $secretKey;
+    }
+
     /**
      * @param $input
      * @param $salt
      * @param string $username
      * @return string
      */
-    public static function encrypt($input, $salt, $username = '')
+    public function encrypt($input, $salt, $username = '')
     {
-        $secretKey = self::getKey($salt, $username);
+        $secretKey = !is_null($this->secretKey) ? $this->secretKey : $this->getKey($salt, $username);
         $encrypted = openssl_encrypt($input, self::ENCRYPT_METHOD, $secretKey, OPENSSL_RAW_DATA);
         $encrypted = base64_encode($encrypted);
 
@@ -29,24 +36,27 @@ class Encryption
      * @param string $username
      * @return string
      */
-    public static function decrypt($hash, $salt, $username = '')
+    public function decrypt($hash, $salt, $username = '')
     {
-        $secretKey = self::getKey($salt, $username);
+        $secretKey = !is_null($this->secretKey) ? $this->secretKey : $this->getKey($salt, $username);
         $decrypted = openssl_decrypt(base64_decode($hash), self::ENCRYPT_METHOD, $secretKey, OPENSSL_RAW_DATA);
 
         return $decrypted;
     }
 
     /**
-     * generate key to encryption/decryption
+     * !!! IMPORTANT !!!
+     * This is an example of method which should generate a secret key!
+     * For security reason, you MUST implements your own getKey method or pass secret key as constructor parameter!
      * @param $salt
      * @param $username
      * @return string
      */
-    private static function getKey($salt, $username)
+    private function getKey($salt, $username)
     {
+        $username = sha1($username);
         $secretString = $salt . $username;
-        $secretKey = sha1($secretString);
+        $secretKey = hash('sha256', $secretString);
         $secretKey = substr($secretKey, 0, self::SECRET_KEY_LENGTH);
 
         return $secretKey;
