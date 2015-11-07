@@ -44,7 +44,7 @@ $username = 'test@example.com';
 $password = 'test123';
 $salt = 'somesalt';
 
-$encryption = new Encryption(); // you can passing secret key as constructor parameter
+$encryption = new Encryption(); // you can pass secret key as constructor parameter
                                 // e.g. $encryption = new Encryption('mySecret');
 $encrypted = $encryption->encrypt($password, $salt, $username);
 $decrypted = $encryption->decrypt($encrypted, $salt, $username);
