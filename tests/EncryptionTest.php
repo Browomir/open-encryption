@@ -33,12 +33,12 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
     public function testEncryptWithEmptyUsername()
     {
         $result = Encryption::encrypt(self::PASSWORD, self::SALT, self::EMPTY_USERNAME);
-        $this->assertSame(self::HASH, $result);
+        $this->assertSame(self::EMPTY_USERNAME_HASH, $result);
     }
 
     public function testDecryptWithEmptyUername()
     {
-        $result = Encryption::decrypt(self::HASH, self::SALT, self::EMPTY_USERNAME);
+        $result = Encryption::decrypt(self::EMPTY_USERNAME_HASH, self::SALT, self::EMPTY_USERNAME);
         $this->assertSame(self::PASSWORD, $result);
     }
 }
