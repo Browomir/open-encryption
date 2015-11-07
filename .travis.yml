@@ -17,6 +17,13 @@ before_install:
 
 install:
   - composer require browomir/open-encryption "dev-master"
+  - composer require satooshi/php-coveralls:~0.6@stable
+
+before_script:
+  - mkdir -p build/logs
 
 script:
-  - phpunit --configuration vendor/browomir/open-encryption/travis.phpunit.xml
+  - phpunit --configuration vendor/browomir/open-encryption/travis.phpunit.xml --coverage-clover build/logs/clover.xml
+
+after_success:
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'

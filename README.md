@@ -1,6 +1,7 @@
 Open Encryption
 =========
 Simple password encryption class based on [OpenSSL](http://php.net/manual/en/book.openssl.php).
+
 **Requires PHP 5.4 or newer.**
 
 Installation
