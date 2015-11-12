@@ -55,6 +55,38 @@ echo 'Decrypted: ' . $decrypted;
 
 ```
 
+Additional:
+
+ - if you don't want use default cipher method (AES-256-CBC) you can set your own:
+ 
+```php
+
+$cipher = new Cipher('AES-128-ECB');
+$encryption->setCipher($cipher);
+
+```
+
+- you can check if chosen cipher is supported and/or is strong:
+
+```php
+
+if ($cipher->isSupported() && $cipher->isCryptoStrong()) {
+    echo 'Your cipher is good!';
+} else {
+    echo 'You should chose other cipher!';
+}
+
+```
+
+- you can get list of all supported cipher by:
+
+```php
+
+$cipher->getSupportedCiphers();
+
+```
+
+
 [![Build Status](https://travis-ci.org/Browomir/open-encryption.svg)](https://travis-ci.org/Browomir/open-encryption)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Browomir/open-encryption/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Browomir/open-encryption/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/Browomir/open-encryption/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Browomir/open-encryption/?branch=master)

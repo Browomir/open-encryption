@@ -1,36 +1,31 @@
 <?php
 
 use OpenEncryption\Encryption;
+use OpenEncryption\Cipher;
 
 class EncryptionTest extends \PHPUnit_Framework_TestCase
 {
     const USERNAME = 'test@example.com';
     const PASSWORD = 'test123';
     const SALT = 'hajs23hidsfbm923k';
-    const HASH = 'hxas+7VCPPaJiLMPjWvUyA==';
-    const INCORRECT_HASH = 'aR6EwTY35Bf4i5B2cey6nM==';
-    const EMPTY_USERNAME = '';
-    const EMPTY_USERNAME_HASH = '4Y9nTh7b4410hh+ha7ouqg==';
     const OWN_SECRET_KEY = 'mySecret';
-    const HASH_BASED_ON_OWN_SECRET_KEY = 'H3gwRPkQTKivWcllQFeezA==';
+    const WEAK_CIPHER_METHOD = 'AES-128-ECB';
+    const INCORRECT_CIPHER_METHOD = 'some-incorrect-cipher';
+    const INCORRECT_HASH = 'aR6EwTY35Bf4i5B2cey6nM==';
+    const HASH_WITHOUT_PARAMETERS = '3jQ4QXcHt3zyMFyFZoXQTw==';
+    const NOT_SUPPORTED_CIPHER_METHOD = 'id-aes128-GCM';
 
     private $encryption;
+    private $ownSecretKeyEncryption;
+    private $weakCipher;
 
     public function setUp()
     {
         $this->encryption = new Encryption();
-    }
-
-    public function testEncrypt()
-    {
-        $result = $this->encryption->encrypt(self::PASSWORD, self::SALT, self::USERNAME);
-        $this->assertSame(self::HASH, $result);
-    }
-
-    public function testDecrypt()
-    {
-        $result = $this->encryption->decrypt(self::HASH, self::SALT, self::USERNAME);
-        $this->assertSame(self::PASSWORD, $result);
+        $this->weakCipher = new Cipher(self::WEAK_CIPHER_METHOD);
+        $this->encryption->setCipher($this->weakCipher);
+        $this->ownSecretKeyEncryption = new Encryption(self::OWN_SECRET_KEY);
+        $this->ownSecretKeyEncryption->setCipher($this->weakCipher);
     }
 
     public function testIncorrectHashDecrypt()
@@ -39,29 +34,78 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame(self::PASSWORD, $result);
     }
 
-    public function testEncryptWithEmptyUsername()
+    public function testWeakCipherEncryption()
     {
-        $result = $this->encryption->encrypt(self::PASSWORD, self::SALT, self::EMPTY_USERNAME);
-        $this->assertSame(self::EMPTY_USERNAME_HASH, $result);
+        $encrypted = $this->encryption->encrypt(self::PASSWORD, self::SALT, self::USERNAME);
+        $decrypted = $this->encryption->decrypt($encrypted, self::SALT, self::USERNAME);
+        $this->assertSame(self::PASSWORD, $decrypted);
+        $this->assertFalse($this->weakCipher->isCryptoStrong());
     }
 
-    public function testDecryptWithEmptyUsername()
+    public function testWeakCipherEncryptionWithoutUsername()
     {
-        $result = $this->encryption->decrypt(self::EMPTY_USERNAME_HASH, self::SALT, self::EMPTY_USERNAME);
-        $this->assertSame(self::PASSWORD, $result);
+        $encrypted = $this->encryption->encrypt(self::PASSWORD, self::SALT);
+        $decrypted = $this->encryption->decrypt($encrypted, self::SALT);
+        $this->assertSame(self::PASSWORD, $decrypted);
+        $this->assertFalse($this->weakCipher->isCryptoStrong());
     }
 
-    public function testEncryptPassingSecretKeyAsConstructorParameter()
+    public function testWeakCipherEncryptionPassingSecretKeyAsConstructorParameter()
     {
-        $encryption = new Encryption(self::OWN_SECRET_KEY);
-        $result = $encryption->encrypt(self::PASSWORD, self::SALT, self::USERNAME);
-        $this->assertSame(self::HASH_BASED_ON_OWN_SECRET_KEY, $result);
+        $encrypted = $this->ownSecretKeyEncryption->encrypt(self::PASSWORD);
+        $decrypted = $this->ownSecretKeyEncryption->decrypt($encrypted);
+        $this->assertSame(self::PASSWORD, $decrypted);
+        $this->assertFalse($this->weakCipher->isCryptoStrong());
     }
 
-    public function testDecryptPassingSecretKeyAsConstructorParameter()
+    public function testWeakCipherEncryptWithoutParameters()
     {
-        $encryption = new Encryption(self::OWN_SECRET_KEY);
-        $result = $encryption->decrypt(self::HASH_BASED_ON_OWN_SECRET_KEY, self::SALT, self::EMPTY_USERNAME);
-        $this->assertSame(self::PASSWORD, $result);
+        $encrypted = $this->encryption->encrypt();
+        $decrypted = $this->encryption->decrypt();
+        $this->assertSame(self::HASH_WITHOUT_PARAMETERS, $encrypted);
+        $this->assertFalse($decrypted);
+    }
+
+    public function testEncryptionWithDefaultCipher()
+    {
+        $encryption = new Encryption();
+        $encrypted = $encryption->encrypt(self::PASSWORD, self::SALT, self::USERNAME);
+        $decrypted = $encryption->decrypt($encrypted, self::SALT, self::USERNAME);
+        $this->assertSame(self::PASSWORD, $decrypted);
+        $this->assertTrue($encryption->getCipher()->isCryptoStrong());
+    }
+
+    public function testGetCipherInstance()
+    {
+        $this->assertInstanceOf('OpenEncryption\Cipher', $this->encryption->getCipher());
+    }
+
+    public function testAllCipherMethods()
+    {
+        $supportedCiphers = $this->weakCipher->getSupportedCiphers();
+        foreach ($supportedCiphers as $supportedCipher) {
+            $cipher = new Cipher($supportedCipher);
+            $this->encryption->setCipher($cipher);
+            $encrypted = $this->encryption->encrypt(self::PASSWORD, self::SALT, self::USERNAME);
+            $decrypted = $this->encryption->decrypt($encrypted, self::SALT, self::USERNAME);
+            $this->assertSame(self::PASSWORD, $decrypted);
+        }
+    }
+
+    /**
+     * @expectedException Exception
+     */
+    public function testSetCipherMethodException()
+    {
+        $this->encryption->setCipher(self::INCORRECT_CIPHER_METHOD);
+    }
+
+    /**
+     * @expectedException OpenEncryption\Exception\NotSupportedCipherException
+     */
+    public function testSetNotSupportedCipher()
+    {
+        $notSupportedCipher = new Cipher(self::NOT_SUPPORTED_CIPHER_METHOD);
+        $this->encryption->setCipher($notSupportedCipher);
     }
 }
