@@ -39,6 +39,7 @@ class Cipher
 
     /**
      * this make simple test of current cipher method
+     * @param null $method
      * @return bool
      */
     private function checkIfMethodIsSupported($method = null)
@@ -58,7 +59,8 @@ class Cipher
     }
 
     /**
-     * generate initialization vector for strong cipher metods
+     * generate initialization vector for strong cipher methods
+     * @param null $length
      * @return string
      */
     public function getInitializationVector($length = null)

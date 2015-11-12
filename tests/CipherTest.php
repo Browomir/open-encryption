@@ -69,9 +69,9 @@ class CipherTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassNotExistingCipherMethodToConstructor()
     {
-        $defaultCipher = new Cipher('some-notExisting-cipher');
-        $weakCipher = new Cipher(123);
-        $notSupportedCiphernew = new Cipher(4.321);
+        new Cipher('some-notExisting-cipher');
+        new Cipher(123);
+        new Cipher(4.321);
     }
 
     public function testSupportedCiphersList()
