@@ -87,6 +87,8 @@ $cipher->getSupportedCiphers();
 ```
 
 
+
+
 [![Build Status](https://travis-ci.org/Browomir/open-encryption.svg)](https://travis-ci.org/Browomir/open-encryption)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Browomir/open-encryption/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Browomir/open-encryption/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/Browomir/open-encryption/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Browomir/open-encryption/?branch=master)
