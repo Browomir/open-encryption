@@ -65,11 +65,16 @@ class Cipher
      */
     public function getInitializationVector($length = null)
     {
-        if (!is_null($length) && !is_integer($length)) {
-            throw new \InvalidArgumentException('Length is not an integer!');
+        if (!is_null($length)) {
+            if (!is_integer($length)) {
+                throw new \InvalidArgumentException('Length is not an integer!');
+            }
+            $ivLength = $length;
+        } else {
+            $ivLength = $this->getInitializationVectorLength();
         }
+
         $isCryptoStrong = false;
-        $ivLength = !is_null($length) ? $length : $this->getInitializationVectorLength();
         $this->iv = openssl_random_pseudo_bytes($ivLength, $isCryptoStrong);
 
         if (is_null($length)) {

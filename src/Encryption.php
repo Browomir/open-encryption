@@ -63,8 +63,10 @@ class Encryption
      * @param \OpenEncryption\Cipher $cipher
      * @throws NotSupportedCipherException
      */
-    public function setCipher(Cipher $cipher)
+    public function setCipher($cipher)
     {
+        $this->checkCipherInstance($cipher);
+
         if ($cipher->isSupported()) {
             $this->cipher = $cipher;
             $this->cipherMethod = $cipher->getMethod();
@@ -80,6 +82,17 @@ class Encryption
     public function getCipher()
     {
         return $this->cipher;
+    }
+
+    /**
+     * @param $cipher
+     * @throws \InvalidArgumentException when cipher is not instance of OpenEncryption\Cipher
+     */
+    private function checkCipherInstance($cipher)
+    {
+        if (!$cipher instanceof Cipher) {
+            throw new \InvalidArgumentException('Argument passed must be an instance of Cipher!');
+        }
     }
 
     /**
