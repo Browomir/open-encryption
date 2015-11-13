@@ -1,6 +1,9 @@
 <?php
 
-namespace OpenEncryption;
+namespace OpenEncryptionTest;
+
+use OpenEncryption\Encryption;
+use OpenEncryption\Cipher;
 
 class EncryptionTest extends \PHPUnit_Framework_TestCase
 {
