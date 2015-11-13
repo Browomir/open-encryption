@@ -86,6 +86,7 @@ class EncryptionTest extends \PHPUnit_Framework_TestCase
 
     public function testAllCipherMethods()
     {
+        // issue with DES-EDE3-CFB1 cipher in PHP 7 and HHVM
         if (!in_array($this->environmentVersion, $this->excludedEnvironments)) {
             $supportedCiphers = $this->weakCipher->getSupportedCiphers();
             foreach ($supportedCiphers as $supportedCipher) {
