@@ -2,7 +2,6 @@
 
 namespace OpenEncryption;
 
-use OpenEncryption\Cipher;
 use OpenEncryption\Exception\NotSupportedCipherException;
 
 class Encryption

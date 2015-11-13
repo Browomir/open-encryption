@@ -20,7 +20,7 @@ install:
   - composer require browomir/open-encryption "dev-master"
 
 script:
-  - phpunit --configuration vendor/browomir/open-encryption/travis.phpunit.xml --coverage-clover=coverage.clover
+  - phpunit --configuration vendor/browomir/open-encryption/phpunit.xml.dist --coverage-clover=coverage.clover
 
 after_success:
   - wget https://scrutinizer-ci.com/ocular.phar
